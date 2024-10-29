@@ -232,6 +232,7 @@ reset_provider() {
   rm -rf /data/resource-cache/overlays.list
   find /data/resource-cache/ -name "*QuickstepSwitcherOverlay*" -exec rm -rf {} \;
   find /data/resource-cache/ -name "*QuickSwitchOverlay*" -exec rm -rf {} \;
+  sed -i 's/\(description=\[ Quickstep : \)[^]]*\]/\1Default ]/' $MODDIR/module.prop
 }
 
 unmount_rw_stepdir() {
@@ -326,6 +327,7 @@ $permissions
 
   if [ -s ${STEPDIR}/QuickSwitchOverlay.apk ]; then
     echo "\nOverlay successfully copied..."
+    sed -i "s/\(description=\[ Quickstep : \)[^]]*\]/\1✅$1 ]/" $MODDIR/module.prop
   else
     abortexit "The overlay was not copied, please send logs to the developer."
   fi

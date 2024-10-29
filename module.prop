@@ -3,5 +3,5 @@ name=QuickSwitch
 version=v4.0.3
 versionCode=4030
 author=The Lawnchair team
-description=Quickstep enabler for supported launchers
+description=[ Quickstep : Default ] Quickstep enabler for supported launchers
 updateJson=https://raw.githubusercontent.com/skittles9823/QuickSwitch/master/QuickSwitch.json
