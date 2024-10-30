@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" crossorigin href="style.css" >
+    <title>WebUI</title>
+</head>
+<body>
+    <div class="titleheader">
+        <h3>QuickSwitch</h3>
+        <div class="spacer"></div>
+        <button id="reloadButton" onclick="location.reload()">🔄</button>
+    </div>
+    
+    <div id="dashboardContent" class="content active">
+        <h2>Dashboard</h2>
+        <div class="status-box">
+            <div class="status-container">
+                <span class="label">Module Version</span>
+                <span class="value" id="modver">Loading...</span>
+            </div>
+            <div class="status-container">
+                <span class="label">Root</span>
+                <span class="value" id="root">Loading...</span>
+            </div>
+            <div class="status-container">
+                <span class="label">Set Launcher</span>
+                <span class="value" id="launcher">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="launchersContent" class="content">
+        <h2>Launchers</h2>
+        <div class="launchersBox" id="launchersBox"></div>
+        <div class="setOverlayButton">
+            <button id="setOverlay">Reset</button>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <a href="#" onclick="showContent('dashboardContent')" class="active">
+            <div class="icon">🏠</div>
+            <span>Dashboard</span>
+        </a>
+        <a href="#" id="launchers" onclick="showContent('launchersContent')">
+            <div class="icon">🔍</div>
+            <span>Launchers</span>
+        </a>
+    </div>
+
+    <div id="overlay" class="overlay">
+        <div class="modal-window">
+            <pre id="logContent" class="log-content"></pre>
+            <button id="rebootButton">Reboot</button>
+            <button id="closeButton">Close</button>
+        </div>
+    </div>
+
+    <script src="modules/dashboard.js" type="module"></script>
+    <script src="modules/loader.js" type="module"></script>
+    <script src="modules/navbar.js" type="module"></script>
+    <script src="modules/process.js" type="module"></script>
+</body>
+</html>
