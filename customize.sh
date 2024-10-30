@@ -27,15 +27,8 @@ if [ $MIUI ] && [ $API -lt "30" ]; then
 fi
 ui_print "- Extracting module files"
 
-unzip -o "$ZIPFILE" 'overlays/*' 'system/*' 'common/*' 'module.prop' 'system.prop' 'sepolicy.rule' 'zipsigner*' 'uninstall.sh' 'quickswitch' 'service.sh' -d $MODPATH >&2
+unzip -o "$ZIPFILE" 'overlays/*' 'system/*' 'common/*' 'module.prop' 'system.prop' 'sepolicy.rule' 'zipsigner*' 'uninstall.sh' 'quickswitch' 'service.sh' 'webroot/*' -d $MODPATH >&2
 chmod +x $MODPATH/common/*
-
-if [ -z "$NOAPK" ]; then
-  unzip -o "$ZIPFILE" 'QuickSwitch.apk' -d /data/local/tmp >&2
-  ui_print "- installing QuickSwitch.apk"
-  pm install -r "/data/local/tmp/QuickSwitch.apk"
-  rm -rf /data/local/tmp/QuickSwitch.apk
-fi
 
 AAPT2=aapt2_$(getprop ro.product.cpu.abi)
 cp -af $MODPATH/common/$AAPT2 $MODPATH/aapt2 || abort "Unsupported Arch!"
@@ -58,6 +51,17 @@ fi
 
 if [ -z "$APATCH" ]; then
   sed -i "/APATCH=true*/d" $MODPATH/quickswitch
+fi
+
+if [ -n "$KSU" ] || [ -n "$APATCH" ]; then
+  NOAPK=true
+fi
+
+if [ -z "$NOAPK" ]; then
+  unzip -o "$ZIPFILE" 'QuickSwitch.apk' -d /data/local/tmp >&2
+  ui_print "- installing QuickSwitch.apk"
+  pm install -r "/data/local/tmp/QuickSwitch.apk"
+  rm -rf /data/local/tmp/QuickSwitch.apk
 fi
 
 rm -rf /data/adb/modules/quickstepswitcher # yeet old module dir
