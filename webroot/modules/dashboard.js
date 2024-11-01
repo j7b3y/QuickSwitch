@@ -8,17 +8,17 @@ async function getmodver() {
 async function getroot() {
   try {
       const root = await run("which busybox");
-      if (root.match(/magisk/)) {
-          return "Magisk";
-      } else if (root.match(/ksu/)) {
+      if (root.match(/ksu/)) {
           return "KernelSU";
       } else if (root.match(/ap/)) {
           return "Apatch";
-      } else {
-          return "Unknown";
-      }
+      } 
   } catch (error) {
-      return "Unknown";
+    if  (await run("/data/adb/magisk/busybox")) {
+        return "Magisk";
+    } else {
+        return "Unknown";
+    }
   }
 }
 
