@@ -52,12 +52,10 @@ fi
 
 abort() {
   echo "qsError: $1"
-  echo "$1" >&2
 }
 
 abortexit() {
   echo "qsError: $1"
-  echo "$1" >&2
   get_logs
   exit 1
 }
@@ -243,6 +241,12 @@ unmount_rw_stepdir() {
   fi
 }
 
+check_package() {
+  if [[ $(pm path $1 2>/dev/null) ==  "" ]]; then #Check that output of pm path is not empty, /dev/null because java throws an exception when it is empty.
+    abortexit "\nPackagename is not correct or empty \nPlease enter it in the format --ch={packagename} \nFor example, for Lawnchair Beta3... \n/data/adb/modules/quickswitch/quickswitch --ch=app.lawnchair"
+  fi
+}
+
 switch_providers() {
   reset_provider
 
@@ -393,7 +397,8 @@ for arg in $(echo ${@}); do
     echo "ro.recents.grid=true" >>$MODDIR/system.prop
     continue
     ;;
-  --ch)
+  -ch|--ch)
+    check_package "$opt2" 
     switch_providers "$opt2"
     continue
     ;;
