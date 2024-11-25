@@ -7,19 +7,17 @@ async function getmodver() {
 
 async function getroot() {
   try {
-      const root = await run("which busybox");
-      if (root.match(/ksu/)) {
-          return "KernelSU";
-      } else if (root.match(/ap/)) {
-          return "Apatch";
-      } 
-  } catch (error) {
-    if  (await run("/data/adb/magisk/busybox")) {
+    const root = await run("readlink -f ./busybox");
+    if (root.match(/magisk/)) {
         return "Magisk";
-    } else {
+        } else if (root.match(/ksu/)) {
+            return "KernelSU";
+        } else if (root.match(/ap/)) {
+            return "Apatch";
+        }
+    } catch (error) {
         return "Unknown";
     }
-  }
 }
 
 async function getlauncher() {
