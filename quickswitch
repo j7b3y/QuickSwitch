@@ -11,6 +11,7 @@ MODDIR=${0%/*}
 
 KSU=true # removed during install if false
 APATCH=true # removed during install if false
+AP_BIND_MOUNT=true # removed during install if false
 
 if [ "$KSU" ]; then
   BBDIR="/data/adb/ksu/bin/busybox"
@@ -142,10 +143,10 @@ get_logs() {
 }
 
 setvars() {
-  if [ -n "$KSU" ] || [ -n "$APATCH" ]; then
+  if [ -n "$KSU" ] || { [ -n "$APATCH" ] && [ -z "$AP_BIND_MOUNT" ]; }; then
     STEPDIRPREFIX=$MODDIR
   else
-     STEPDIRPREFIX=$MODDIR/system
+    STEPDIRPREFIX=$MODDIR/system
   fi
   SUFFIX="/overlay/QuickSwitchOverlay"
   if [ "$API" -ge 29 ]; then

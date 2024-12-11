@@ -53,12 +53,17 @@ if [ -z "$APATCH" ]; then
   sed -i "/APATCH=true*/d" $MODPATH/quickswitch
 fi
 
+if [ -z "$APATCH_BIND_MOUNT" ]; then
+  sed -i "/AP_BIND_MOUNT=true*/d" $MODPATH/quickswitch
+fi
+
 if [ -n "$KSU" ] || [ -n "$APATCH" ]; then
   NOAPK=true
   ln -s $(which busybox) $MODPATH/busybox
 else
   ln -s /data/adb/magisk/busybox $MODPATH/busybox
 fi
+
 
 if [ -z "$NOAPK" ]; then
   unzip -o "$ZIPFILE" 'QuickSwitch.apk' -d /data/local/tmp >&2
